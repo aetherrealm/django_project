@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class IP_Addresses(models.Model):
+    IP = models.GenericIPAddressField(protocol="IPv4")
+    def __str__(self):
+        return self.IP
