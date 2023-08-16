@@ -2,6 +2,14 @@
 
 from django.db import migrations, models
 
+def create_initial_ips(apps, schema_editor):
+    ip_addr = apps.get_model('core', 'IP_Addresses')
+    db = schema_editor.connection.alias
+    ip_addr.objects.using(db).bulk_create([
+        ip_addr(IP='192.168.1.1'),
+        ip_addr(IP='192.168.1.2'),
+        ip_addr(IP='192.168.1.3'),
+    ])
 
 class Migration(migrations.Migration):
     initial = True
@@ -24,4 +32,5 @@ class Migration(migrations.Migration):
                 ("IP", models.GenericIPAddressField(protocol="IPv4")),
             ],
         ),
+        migrations.RunPython(create_initial_ips)
     ]
