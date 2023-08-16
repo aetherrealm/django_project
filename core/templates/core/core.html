@@ -1,24 +1,57 @@
 {% load static %}
 
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-<title>Modern Django Form</title>
+<title>VLAN Deployment</title>
 </head>
 <body>
   <div class="container">
-    <h1>Modern Django Form</h1>
+    <h1>VLAN Deployment</h1>
     <form method="post">
       {% csrf_token %}
       <div class="form-group">
-        <label for="id_name">Address:</label>
-        {{ form.IPs }}
+        <label for="id_vid">VID:</label>
+        {{ form.vid }}
+      </div>
+      <div class="form-group" id="id_evpn_box">
+        <label for="id_evpn">EVPN:</label>
+        {{ form.evpn }}
+      </div>
+      <div class="form-group" id="id_anycast_gateway_box" style="display:none">
+        <label for="id_anycast_gateway">Anycast Gateway Address:</label>
+        {{ form.anycast_gateway }}
       </div>
       <button type="submit">Submit</button>
     </form>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const evpnCheckbox = document.getElementById('id_evpn_box');
+        const addressBox = document.getElementById('id_anycast_gateway_box');
+    
+        function myFunction() {
+          var x = document.getElementById("id_anycast_gateway_box");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+        // Add an event listener to the checkbox field
+        evpnCheckbox.addEventListener('change', function() {
+          if (evpnCheckbox.checked) {
+            myFunction()
+          } else {
+            myFunction()
+          }
+        });
+      });
+    </script>
   </div>
 </body>
 </html>
+{% endblock %}
